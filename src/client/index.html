@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html ng-app="minesweeper">
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
+    <script src="./socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="./digital/stylesheet.css" />
+    <link rel="stylesheet" href="./mines.css" />
+</head>
+<!--
+Use angular's controllerAs syntax to instantiate and use a MinesweeperCtrl
+as the basic game manager.
+-->
+<body ng-controller="MinesweeperCtrl as game" ng-cloak>
+    <div style="width: {{ game.field.rows[0].spots.length * 24 }}px">
+        <ul class="scoreboard">
+            <li>{{ game.field.minesRemaining() }}</li>
+            <li>{{ game.elapsed | seconds }}</li>
+        </ul>
+        <ul class="menu">
+            <li><a href="#" ng-click="game.reset()">Reset</a></li>
+            <li><a href="#" ng-click="game.settings.shown = !game.settings.shown">Settings</a></li>
+        </ul>
+        <div ng-show="game.settings.shown">
+            <ul ng-init="settings = game.settings">
+                <li><a href="#" ng-click="settings.easy()">Easy (9x9, 10 mines)</a></li>
+                <li><a href="#" ng-click="settings.medium()">Medium (16x16, 40 mines)</a></li>
+                <li><a href="#" ng-click="settings.hard()">Hard (16x30, 99 mines)</a></li>
+                <li>
+                    <label for="width">Width</label><input name="width" type="number" min="1" max="50" ng-model="settings.width" />
+                    <label for="height">Height</label><input name="height" type="number" min="1" max="50" ng-model="settings.height" />
+                    <label for="mines">Mines</label><input name="mines" type="number" min="1" max="{{
+                        (settings.width * settings.height) - 1
+                    }}" ng-model="settings.mines" />
+                </li>
+                <li><button ng-click="settings.apply()">Ok</button></li>
+            </ul>
+        </div>
+        <table class="minefield" ng-click="game.boardClick()" no-select>
+            <tbody>
+                <!-- The rows are boring. -->
+                <tr ng-repeat="row in game.field.rows">
+                    <!--
+                        The squares handle so much!
+                        - The ng-click handler calls the spot's show logic.
+                        - Some little logic for whether to show the hidden or mine
+                            CSS classes.
+                    -->
+                    <td class="square neighbors-{{spot.neighbors}}"
+                        ng-repeat="spot in row.spots"
+                        ng-click="$event.shiftKey ? spot.flag() : spot.show()"
+                        ng-right-click="spot.flag()"
+                        ng-shift-click="spot.flag()"
+                        ng-class="{
+                            wrong: game.field.is.over && spot.is.flagged && !spot.is.mine,
+                            flag: spot.state == 'MARKED',
+                            question: spot.state == 'QUESTION',
+                            hidden: !spot.is.revealed,
+                            mine: spot.is.mine && spot.is.revealed
+                        }"
+                    >{{ spot.neighbors }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="copynotice">by <a href="http://davidsouther.com/">David Souther</a> | <a href="https://github.com/DavidSouther/ng-minesweeper">Source</a></div>
+    </div>
+<!--
+    <script src="./spot.js" type="text/javascript"></script>
+    <script src="./minefield.js" type="text/javascript"></script>
+    <script src="./settings.js" type="text/javascript"></script>
+-->
+    <script src="./minesweeper.js" type="text/javascript"></script>
+</body>
+</html>

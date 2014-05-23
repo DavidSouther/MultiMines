@@ -1,0 +1,94 @@
+* {
+    /* Sanity! */
+    box-sizing: border-box;
+}
+
+body > div {
+    margin: 0 auto;
+}
+
+/* Cloaking Device */
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+.scoreboard ul {
+    list-style: none;
+}
+
+.scoreboard li {
+    display: inline-block;
+    margin: 0 1em;
+    padding: 1em;
+    font-family: "digital_dream_fat_skewregular", Arial, sans-serif;
+    color: red;
+    background: black;
+}
+
+/* Reset */
+.minefield {
+    border-spacing: 0;
+    cursor: pointer;
+}
+
+/* The basic, unstyled, empty state. */
+.minefield td.square {
+    padding:0;
+    width: 24px;
+    height: 24px;
+    background-color: #CCC;
+    background-position: center center;
+    border: solid darkgrey 1px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* The isometric hidden state. */
+.minefield td.square.hidden {
+    border-top: white solid;
+    border-left: white solid;
+    border-right: black solid;
+    border-bottom: black solid;
+    text-indent: -9999px;
+}
+
+/* A dataURL for the mine in the background. */
+.minefield td.square.mine, td.square.wrong {
+    background-color: red;
+    background-image: url(data:image/gif;base64,R0lGODlhFwAXAKEBAAAAAP///////////yH5BAEKAAIALAAAAAAXABcAAAI5lI+py+0G3ouy0Soo2FzPDl5W2H1AgJIOhwbqeKbhQtalYt9Mzq28SMtJeBPILIOBJGlLXPMJPRQAADs=);
+    text-indent: -9999px;
+}
+
+.minefield td.square.question {
+    position: relative;
+}
+
+.minefield td.square.question:after {
+    content: '?';
+    position: absolute;
+    left: 0;
+    width: 20px;
+    text-align: center;
+    text-indent: 0;
+    color: black;
+}
+
+.minefield td.square.flag {
+    background-image: url(data:image/gif;base64,R0lGODlhGAAYAOMKAAAAAP8ADf8BDv8CD/8DEP8EEf8FEv8KFv8LF/8OGv///////////////////////yH5BAEKAA8ALAAAAAAYABgAAARI8MlJq704680z+EBXBQYYikmgFmaHqDALbgZsy18m2DzRYikezDfbFITEnMg2+Ikeh0Cz+Jw4q49rVfvkirwdMEe8IWPP6E4EADs=);
+}
+
+/* Colors for the numbers */
+.minefield td.square.neighbors-0 { color: #CCC; }
+.minefield td.square.neighbors-1 { color: blue; }
+.minefield td.square.neighbors-2 { color: green; }
+.minefield td.square.neighbors-3 { color: red; }
+.minefield td.square.neighbors-4 { color: darkblue; }
+.minefield td.square.neighbors-5 { color: orange; }
+.minefield td.square.neighbors-6 { color: teal; }
+.minefield td.square.neighbors-7 { color: yellow; }
+.minefield td.square.neighbors-8 { color: brown; }
+
+#copynotice {
+    text-align: center;
+    font-size: smaller;
+}

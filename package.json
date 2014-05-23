@@ -1,0 +1,18 @@
+{
+  "name": "multi-mines",
+  "version": "0.0.0",
+  "description": "Multiplayer Mine Sweeping Game",
+  "main": "src/server/server.js",
+  "scripts": {
+    "start": "node ./src/server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.3.0",
+    "morgan": "^1.1.1",
+    "socket.io": "^0.9.16",
+    "st": "^0.4.1"
+  }
+}
