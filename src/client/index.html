@@ -51,7 +51,7 @@ as the basic game manager.
                         ng-right-click="spot.flag()"
                         ng-shift-click="spot.flag()"
                         ng-class="{
-                            wrong: game.field.is.over && spot.is.flagged && !spot.is.mine,
+                            wrong: game.field.is.over && spot.state != 'NORMAL' && !spot.is.mine,
                             flag: spot.state == 'MARKED',
                             question: spot.state == 'QUESTION',
                             hidden: !spot.is.revealed,

@@ -68,6 +68,7 @@ Spot.prototype.flag = function(){
     if (this.is.revealed) { return; }
     this.state = Spot.FlagStates[this.state].next;
     Spot.FlagStates[this.state].transition.call(this);
+    this.field.flag(this);
 }
 
 /**
@@ -167,6 +168,14 @@ Spot.prototype.toRevealed = function(){
         this.position.row,
         this.position.col,
         this.neighbors()
+    ];
+};
+
+Spot.prototype.toFlagged = function(){
+    return [
+        this.position.row,
+        this.position.col,
+        this.state
     ];
 };
 

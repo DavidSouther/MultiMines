@@ -21,8 +21,8 @@ util.inherits(Minefield, events.EventEmitter);
  */
 Minefield.prototype.start = function(position){
     if(this.is.started){ return; }
-    this.is.started = true;
     this.reset();
+    this.is.started = true;
     this.addMines(this.difficulty, position);
     // this.game.start();
 };
@@ -54,6 +54,10 @@ Minefield.prototype._init = function(){
  */
 Minefield.prototype.reset = function(){
     var i, j;
+    this.is = {
+        started: false,
+        over: false
+    };
     this.mines.length = 0;
     this.flags.length = 0;
     this.squaresLeft = this.settings.height * this.settings.width;
@@ -62,6 +66,7 @@ Minefield.prototype.reset = function(){
             this.rows[i].spots[j].reset();
         }
     }
+    this.emit('reset');
     return this;
 }
 
@@ -129,6 +134,10 @@ Minefield.prototype.progress = function(spot){
     }
     this.emit('reveal', spot);
 };
+
+Minefield.prototype.flag = function(spot){
+    this.emit('flagged', spot);
+}
 
 /**
  * Declare this as a winning state!

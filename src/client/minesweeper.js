@@ -16,6 +16,10 @@ Spot.prototype.show = function(){
     this.socket.emit('show', this.position);
 }
 
+Spot.prototype.flag = function(){
+    this.socket.emit('flag', this.position);
+}
+
 function MinesweeperCtrl($scope){
     var self = this;
     this.field = {};
@@ -37,10 +41,18 @@ function MinesweeperCtrl($scope){
         spot.is.revealed = true;
         spot.neighbors = data[2];
     });
+    this.socket.$on('flagged', function(data){
+        var spot = self.getSpot(data[0], data[1]);
+        spot.state = data[2];
+    });
 }
 
 MinesweeperCtrl.prototype.getSpot = function(row, col){
     return (this.field.rows[row] || {spots: []}).spots[col];
+};
+
+MinesweeperCtrl.prototype.reset = function(){
+    this.socket.emit('reset');
 };
 
 MinesweeperCtrl.prototype.unserialize = function(data){
