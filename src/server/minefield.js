@@ -110,9 +110,6 @@ Minefield.prototype.addMines = function(count, position){
  * Someone just stepped on a mine...
  */
 Minefield.prototype.boom = function(){
-    this.mines.forEach(function(spot){
-        spot.show();
-    });
     // this.game.stop();
     this.is.over = true;
     this.emit('Boom!');
@@ -184,6 +181,11 @@ Minefield.prototype.serialize = function(){
             return spot.toFlagged();
         })
     };
+    if(this.is.over){
+        field.mines = this.mines.map(function(spot){
+            return spot.toRevealed();
+        });
+    }
     return field;
 }
 

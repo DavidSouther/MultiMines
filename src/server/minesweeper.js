@@ -28,6 +28,11 @@ var minesweeper = function(io){
         game.on('flagged', function(spot){
             socket.emit('flagged', spot.toFlagged());
         });
+        game.on('Boom!', function(){
+            socket.emit('Boom!', game.mines.map(function(spot){
+                return spot.toRevealed();
+            }));
+        });
     });
 
 };

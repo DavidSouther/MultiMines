@@ -10,6 +10,7 @@ function Spot(socket, i, j){
         flagged: false,
         revealed: false
     };
+    this.state = 'NORMAL';
 }
 
 Spot.prototype.show = function(){
@@ -22,7 +23,7 @@ Spot.prototype.flag = function(){
 
 function MinesweeperCtrl($scope){
     var self = this;
-    this.field = {};
+    this.field = {is: {over: false}};
     this.socket = io.connect('http://localhost:2025');
     var _on = this.socket.on;
     this.socket.$on = function(event, fn){
@@ -33,6 +34,7 @@ function MinesweeperCtrl($scope){
         })
     };
     this.socket.$on('reset', function (data) {
+        self.field.is.over = false;
         self.unserialize(data);
     });
 
@@ -44,6 +46,15 @@ function MinesweeperCtrl($scope){
     this.socket.$on('flagged', function(data){
         var spot = self.getSpot(data[0], data[1]);
         spot.state = data[2];
+    });
+
+    this.socket.$on('Boom!', function(mines){
+        self.field.is.over = true;
+        mines.forEach(function(data){
+            var spot = self.getSpot(data[0], data[1]);
+            spot.is.mine = true;
+            spot.is.revealed = true;
+        });
     });
 }
 
@@ -75,6 +86,13 @@ MinesweeperCtrl.prototype.unserialize = function(data){
         data.revealed.forEach(function(spot){
             this.getSpot(spot[0], spot[1]).is.revealed = true;
             this.getSpot(spot[0], spot[1]).neighbors = spot[2];
+        }.bind(this));
+    }
+    if(data.mines){
+        this.field.is.over = true;
+        data.mines.forEach(function(spot){
+            this.getSpot(spot[0], spot[1]).is.revealed = true;
+            this.getSpot(spot[0], spot[1]).is.mine = true;
         }.bind(this));
     }
 };
