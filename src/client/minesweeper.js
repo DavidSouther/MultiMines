@@ -24,7 +24,7 @@ Spot.prototype.flag = function(){
 function MinesweeperCtrl($scope){
     var self = this;
     this.field = {is: {over: false}};
-    this.socket = io.connect('http://localhost:2025');
+    this.socket = io.connect('/');
     var _on = this.socket.on;
     this.socket.$on = function(event, fn){
         self.socket.on(event, function(data){
