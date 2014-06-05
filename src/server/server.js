@@ -14,3 +14,5 @@ var io = require('socket.io').listen(server);
 var minesweeper = require('./minesweeper.js')(io);
 
 server.listen(2025);
+
+console.log('Listening http://127.0.0.1:2025');

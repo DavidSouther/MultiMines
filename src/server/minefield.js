@@ -179,7 +179,10 @@ Minefield.prototype.serialize = function(){
                 }
                 return revealed;
             }.bind(this), []));
-        }.bind(this), [])
+        }.bind(this), []),
+        flagged: this.flags.map(function(spot){
+            return spot.toFlagged();
+        })
     };
     return field;
 }

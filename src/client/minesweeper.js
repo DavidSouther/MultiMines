@@ -66,10 +66,10 @@ MinesweeperCtrl.prototype.unserialize = function(data){
             this.field.rows[i].spots[j] = new Spot(this.socket, i, j);
         }
     }
-    if(data.flags){
-        data.flags.forEach(function(spot){
-            this.getSpot(spot[0][1]).is.flagged = true;
-        });
+    if(data.flagged){
+        data.flagged.forEach(function(spot){
+            this.getSpot(spot[0], spot[1]).state = spot[2];
+        }.bind(this));
     }
     if(data.revealed){
         data.revealed.forEach(function(spot){
